@@ -16,7 +16,7 @@ class Solution:
                 count2+=1
         else:
             while count1<len(nums1):
-                l3.append(nums2[count1])
+                l3.append(nums1[count1])
                 count1+=1
         if len(l3)%2==1:
             return l3[int((len(nums1)+len(nums2))/2)]
