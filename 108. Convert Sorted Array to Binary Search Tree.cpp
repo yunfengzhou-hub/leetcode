@@ -9,25 +9,40 @@
  */
 class Solution {
 public:
-    TreeNode* result;
-    vector<int>& gnums
-    void myBST(TreeNode* target,int start,int finish){
-        //if(finish-start<1) return;
-        target->val=gnums[(finish+start)/2];
-        if((finish+start)/2-start>=1){
-            target->left=new TreeNode(gnums[0]);
-            myBST(target->left,start,(finish+start)/2);
-        }
-        if(finish-(finish+start)/2>=1){
-            target->right=new TreeNode(gnums[0]);
-            myBST(target->right,(finish+start)/2,finish);
-        }
-    }
     TreeNode* sortedArrayToBST(vector<int>& nums) {
+        int middle,start,finish;
+        TreeNode* result,*temp;
+        queue<TreeNode*> nodes;
+        queue<pair<int,int>> ranges;
+
         if(nums.size()<1) return NULL;
-        gnums.assign(nums.begin(),nums.end());
-        result=new TreeNode(gnums[0]);
-        myBST(result,0,nums.size());
+
+        result=new TreeNode(0);
+        nodes.push(result);
+        ranges.push(make_pair(0,nums.size()));
+        while(nodes.size()>0){
+            start=ranges.front().first;
+            finish=ranges.front().second;
+            temp=nodes.front();
+
+            middle=(start+finish)/2;
+            temp->val=nums[middle];
+
+            if(middle-start>0){
+                temp->left=new TreeNode(0);
+                nodes.push(temp->left);
+                ranges.push(make_pair(start,middle));
+            }
+            if(finish-middle>1){
+                temp->right=new TreeNode(0);
+                nodes.push(temp->right);
+                ranges.push(make_pair(middle+1,finish));
+            }
+
+            nodes.pop();
+            ranges.pop();
+        }
+
         return result;
     }
 };
